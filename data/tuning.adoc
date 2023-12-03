@@ -1,13 +1,13 @@
 [[lsd-tuning]]
 = Tuning Large Scale Deployments
 
-{productname} is designed by default to work on small and medium scale installations.
-For installations with more than 1000 clients per {productname} Server, adequate hardware sizing and parameter tuning must be performed.
+Uyuni is designed by default to work on small and medium scale installations.
+For installations with more than 1000 clients per Uyuni Server, adequate hardware sizing and parameter tuning must be performed.
 
 [WARNING]
 ====
 The instructions in this section can have severe and catastrophic performance impacts when improperly used.
-In some cases, they can cause {productname} to completely cease functioning.
+In some cases, they can cause Uyuni to completely cease functioning.
 Always test changes before implementing them in a production environment.
 During implementation, take care when changing parameters.
 Monitor performance before and after each change, and revert any steps that do not produce the expected result.
@@ -31,7 +31,7 @@ Do not perform these instructions on small or medium scale installations.
 
 == The Tuning Process
 
-Any {productname} installation is subject to a number of design and infrastructure constraints that, for the purposes of tuning, we call environmental variables.
+Any Uyuni installation is subject to a number of design and infrastructure constraints that, for the purposes of tuning, we call environmental variables.
 Environmental variables can include the total number of clients, the number of different operating systems under management, and the number of software channels.
 
 Environmental variables influence, either directly or indirectly, the value of most configuration parameters.
@@ -86,7 +86,7 @@ This section contains information about environmental variables (inputs to the t
 
 [[network-bandwidth]]
 Network Bandwidth::
-A measure of the typically available egress bandwith from the {productname} Server host to the clients or {productname} Proxy hosts.
+A measure of the typically available egress bandwith from the Uyuni Server host to the clients or Uyuni Proxy hosts.
 This should take into account network hardware and topology as well as possible capacity limits on switches, routers, and other network equipment between the server and clients.
 
 [[channel-count]]
@@ -308,7 +308,7 @@ This section contains information about the available parameters.
 | Description          | Before any action is executed on a client, a presence ping is executed to make sure the client is reachable.
                          This parameter sets the amount of time before a second command (`find_job`) is sent to the client to verify its presence.
                          Having many clients typically means some will respond faster than others, so this timeout could be raised to accommodate for the slower ones.
-| Tune when            | xref:client-count[Client count] increases significantly, or some clients are responding correctly but too slowly, and {productname} excludes them from calls.
+| Tune when            | xref:client-count[Client count] increases significantly, or some clients are responding correctly but too slowly, and Uyuni excludes them from calls.
                          This line appears in [path]``/var/log/rhn/rhn_web_ui.log``: [systemitem]``"Got no result for <COMMAND> on minion <MINION_ID> (minion did not respond in time)"``
 | Value default        | 4 seconds
 | Value recommendation | 4-400 seconds
@@ -330,7 +330,7 @@ This section contains information about the available parameters.
                          After xref:java-salt-presence-ping-timeout[`java.salt_presence_ping_timeout`] seconds have elapsed without a response, a second command (`find_job`) is sent to the client for a final check.
                          This parameter sets the number of seconds after the second command after which the client is definitely considered offline.
                          Having many clients typically means some will respond faster than others, so this timeout could be raised to accommodate for the slower ones.
-| Tune when            | xref:client-count[Client count] increases significantly, or some clients are responding correctly but too slowly, and {productname} excludes them from calls.
+| Tune when            | xref:client-count[Client count] increases significantly, or some clients are responding correctly but too slowly, and Uyuni excludes them from calls.
                          This line appears in [path]``/var/log/rhn/rhn_web_ui.log``: [systemitem]``"Got no result for <COMMAND> on minion <MINION_ID> (minion did not respond in time)"``
 | Value default        | 1 second
 | Value recommendation | 1-100 seconds
@@ -348,7 +348,7 @@ This section contains information about the available parameters.
 |===
 | Description          | Whenever content is changed in a software channel, its metadata needs to be recomputed before clients can use it.
                          Channel-altering operations include the addition of a patch, the removal of a package or a repository synchronization run.
-                         This parameter specifies the maximum number of Taskomatic threads that {productname} will use to recompute the channel metadata.
+                         This parameter specifies the maximum number of Taskomatic threads that Uyuni will use to recompute the channel metadata.
                          Channel metadata computation is both CPU-bound and memory-heavy, so raising this parameter and operating on many channels simultaneously could cause Taskomatic to consume significant resources, but channels will be available to clients sooner.
 | Tune when            | xref:channel-count[Channel count] increases significantly (more than 50), or more concurrent operations on channels are expected.
 | Value default        | 2
@@ -368,7 +368,7 @@ This section contains information about the available parameters.
 |===
 | Description          | The maximum amount of memory Taskomatic can use.
                          Generation of metadata, especially for some OSs, can be memory-intensive, so this parameter might need raising depending on the managed xref:os-mix[OS mix].
-| Tune when            | xref:java-taskomatic-channel-repodata-workers[`java.taskomatic_channel_repodata_workers`] increases, OSs are added to {productname} (particularly {rhel} or {ubuntu}), or `OutOfMemoryException` errors appear in `/var/log/rhn/rhn_taskomatic_daemon.log`.
+| Tune when            | xref:java-taskomatic-channel-repodata-workers[`java.taskomatic_channel_repodata_workers`] increases, OSs are added to Uyuni (particularly {rhel} or {ubuntu}), or `OutOfMemoryException` errors appear in `/var/log/rhn/rhn_taskomatic_daemon.log`.
 | Value default        | 4096 MiB
 | Value recommendation | 4096-16384 MiB
 | Location             | [path]``/etc/rhn/rhn.conf``
@@ -526,7 +526,7 @@ If you see lines containing ``LOG:  temporary file:`` try raising this parameter
 | Value recommendation | 2-20 MB
 | Location             | [path]``/var/lib/pgsql/data/postgresql.conf``
 | Example              | `work_mem = 10MB`
-| After changing       | check if the {productname} Server might need additional RAM.
+| After changing       | check if the Uyuni Server might need additional RAM.
 | More information     | https://www.postgresql.org/docs/15/runtime-config-resource.html#GUC-WORK-MEM
 |===
 
@@ -558,7 +558,7 @@ If you see lines containing ``LOG:  temporary file:`` try raising this parameter
 [cols="1,1"]
 |===
 | Description          | The number of worker threads serving Salt API HTTP requests.
-                         A higher number can improve parallelism of {productname} Server-initiated Salt operations, but will consume more memory.
+                         A higher number can improve parallelism of Uyuni Server-initiated Salt operations, but will consume more memory.
 | Tune when            | xref:java-message-queue-thread-pool-size[`java.message_queue_thread_pool_size`] or xref:org-quartz-threadPool-threadCount[`org.quartz.threadPool.threadCount`] are changed.
                          Starvation can occur when there are more Tomcat or Taskomatic threads making simultaneous Salt API calls than there are Salt API worker threads.
 | Value default        | 100
@@ -647,24 +647,24 @@ It is important that the amount of hardware RAM is adequate after any significan
 To determine how RAM is being used, you will need to check each process that consumes it.
 
 Operating system::
-Stop all {productname} services and inspect the output of [command]``free -h``.
+Stop all Uyuni services and inspect the output of [command]``free -h``.
 Java-based components::
 This includes Taskomatic, Tomcat, and `rhn-search`.
 These services support a configurable memory cap.
-The {productname} Server::
+The Uyuni Server::
 Depends on many factors and can only be estimated.
 Measure PostgreSQL reserved memory by checking xref:shared-buffers[`shared_buffers`], permanently.
 You can also multiply xref:work-mem[`work_mem`] and xref:max-connections[`max_connections`], and multiply by three for a worst case estimate of per-query RAM.
 You will also need to check the operating system buffers and caches, which are used by PostgreSQL to host copies of database data.
 These often automatically occupy any available RAM.
 
-It is important that the {productname} Server has sufficient RAM to accommodate all of these processes, especially OS buffers and caches, to have reasonable PostgreSQL performance.
+It is important that the Uyuni Server has sufficient RAM to accommodate all of these processes, especially OS buffers and caches, to have reasonable PostgreSQL performance.
 We recommend you keep several gigabytes available at all times, and add more as the database size on disk increases.
 
 Whenever the expected amount of memory available for OS buffers and caches changes, update the `effective_cache_size` parameter to have PostgreSQL use it correctly.
 You can calculate the total available by finding the total RAM available, less the expected memory usage.
 
-To get a live breakdown of the memory used by services on the {productname} Server, use this command:
+To get a live breakdown of the memory used by services on the Uyuni Server, use this command:
 
 ----
 pidstat -p ALL -r --human 1 60 | tee pidstat-memory.log

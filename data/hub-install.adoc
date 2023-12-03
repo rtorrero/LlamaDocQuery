@@ -7,7 +7,7 @@ Before you begin, you need to install the ``hub-xmlrpc-api`` package, and config
 
 .Procedure: Installing and Configuring the Hub XMLRPC API
 . On the Hub Server, or on a host that has access to all peripheral servers' XMLRPC APIs, install the ``hub-xmlrpc-api`` package.
-    The package is available in the {productname} {productnumber} repositories.
+    The package is available in the Uyuni {productnumber} repositories.
 . OPTIONAL: Set the Hub XMLRPC API service to start automatically at boot time, and start it immediately:
 +
 ----

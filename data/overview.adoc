@@ -3,8 +3,8 @@
 
 **Updated:** {docdate}
 
-{productname} is designed by default to work on small and medium scale installations.
-For installations with more than 1000 clients per {productname} Server, adequate hardware sizing and parameter tuning must be performed.
+Uyuni is designed by default to work on small and medium scale installations.
+For installations with more than 1000 clients per Uyuni Server, adequate hardware sizing and parameter tuning must be performed.
 
 There is no hard maximum number of supported systems.
 Many factors can affect how many clients can reliably be used in a particular installation.
@@ -18,15 +18,15 @@ These instructions cannot be used in environments using traditional clients or S
 ====
 
 There are two main ways to manage large scale deployments.
-You can manage them with a single {productname} Server, or you can use multiple servers in a hub.
+You can manage them with a single Uyuni Server, or you can use multiple servers in a hub.
 Both methods are described in this book.
 
-With large scale environments one should also consider the usage of {productname} Proxies.
+With large scale environments one should also consider the usage of Uyuni Proxies.
 Sizing and location of the Proxies will dependent on the deployment topology.
 For more information see xref:installation-and-upgrade:install-proxy.adoc[].
 
-Additionally, if you are operating within a Retail environment, you can use {productname} {smr} to manage large deployments of point-of-service terminals.
-There is an introduction to {productname} {smr} in this book.
+Additionally, if you are operating within a Retail environment, you can use Uyuni {smr} to manage large deployments of point-of-service terminals.
+There is an introduction to Uyuni {smr} in this book.
 
 Tuning and monitoring large scale deployments can differ from smaller installations.
 This book contains guidance for both tuning and monitoring within larger installations.
